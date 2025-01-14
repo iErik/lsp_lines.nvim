@@ -45,16 +45,14 @@ end
 ---@param opts boolean
 ---@param source 'native'|'coc'|nil If nil, defaults to 'native'.
 function M.show(namespace, bufnr, diagnostics, opts, source)
-  vim.validate({
-    namespace = { namespace, "n" },
-    bufnr = { bufnr, "n" },
-    diagnostics = {
-      diagnostics,
-      vim.tbl_islist,
-      "a list of diagnostics",
-    },
-    opts = { opts, "t", true },
-  })
+  local islist = vim.fn.has "nvim-0.10" == 1
+    and vim.islist or vim.tbl_islist
+
+  vim.validate("namespace", namespace, "number")
+  vim.validate("bufnr", bufnr, "number")
+  vim.validate("diagnostics", diagnostics, islist)
+  vim.validate("opts", opts, "boolean", true)
+
 
   table.sort(diagnostics, function(a, b)
     if a.lnum ~= b.lnum then
@@ -84,7 +82,12 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
     local stack = line_stacks[diagnostic.lnum]
 
     if diagnostic.lnum ~= prev_lnum then
-      table.insert(stack, { SPACE, string.rep(" ", distance_between_cols(bufnr, diagnostic.lnum, 0, diagnostic.col)) })
+      table.insert(stack, {
+        SPACE,
+        string.rep(" ",
+          distance_between_cols(
+            bufnr, diagnostic.lnum, 0, diagnostic.col))
+      })
     elseif diagnostic.col ~= prev_col then
       -- Clarification on the magic numbers below:
       -- +1: indexing starting at 0 in one API but at 1 on the other.
