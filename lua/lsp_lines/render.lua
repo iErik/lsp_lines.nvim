@@ -42,7 +42,7 @@ end
 ---@param namespace number
 ---@param bufnr number
 ---@param diagnostics table
----@param opts boolean
+---@param opts table
 ---@param source 'native'|'coc'|nil If nil, defaults to 'native'.
 function M.show(namespace, bufnr, diagnostics, opts, source)
   local islist = vim.fn.has "nvim-0.10" == 1
@@ -51,7 +51,7 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
   vim.validate("namespace", namespace, "number")
   vim.validate("bufnr", bufnr, "number")
   vim.validate("diagnostics", diagnostics, islist)
-  vim.validate("opts", opts, "boolean", true)
+  vim.validate("opts", opts, "table", true)
 
 
   table.sort(diagnostics, function(a, b)
