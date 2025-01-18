@@ -195,7 +195,7 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
     vim.api.nvim_buf_set_extmark(
       bufnr,
       namespace,
-      lnum, 0,
+      lnum+1, 0,
       { virt_lines = virt_lines })
 
   end
