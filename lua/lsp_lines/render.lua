@@ -191,7 +191,7 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
       end
     end
 
-    vim.print("Lnum: ", lnum)
+    vim.print(lnum)
     vim.api.nvim_buf_set_extmark(
       bufnr,
       namespace,
