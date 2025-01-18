@@ -191,7 +191,13 @@ function M.show(namespace, bufnr, diagnostics, opts, source)
       end
     end
 
-    vim.api.nvim_buf_set_extmark(bufnr, namespace, lnum, 0, { virt_lines = virt_lines })
+    vim.print("Lnum: ", lnum)
+    vim.api.nvim_buf_set_extmark(
+      bufnr,
+      namespace,
+      lnum, 0,
+      { virt_lines = virt_lines })
+
   end
 end
 
